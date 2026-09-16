@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Enums\UserRole;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -17,7 +19,11 @@ use App\Enums\UserRole;
 class User extends Authenticatable
 {
 
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
+    
+    use HasUuids;
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected function casts(): array
     {
